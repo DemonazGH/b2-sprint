@@ -1,0 +1,10 @@
+{
+  "name": "B2 Sprint — First for Schools",
+  "short_name": "B2 Sprint",
+  "description": "Interactive preparation for B2 First for Schools Digital",
+  "start_url": "./",
+  "display": "standalone",
+  "background_color": "#0b0c10",
+  "theme_color": "#0b0c10",
+  "icons": []
+}
