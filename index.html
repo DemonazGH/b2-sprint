@@ -11,13 +11,14 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="features.css">
 </head>
 <body>
   <div class="noise"></div>
   <header class="topbar">
     <a class="brand" href="#home" aria-label="B2 Sprint home"><span class="brand-mark">B2</span><span>Sprint</span></a>
     <nav aria-label="Main navigation">
-      <a href="#exam">Exam map</a><a href="#reading">Reading</a><a href="#writing">Writing</a><a href="#speaking">Speaking</a><a href="#practice">Practice</a>
+      <a href="#exam">Exam map</a><a href="#reading">Reading</a><a href="#writing">Writing</a><a href="#listening">Listening</a><a href="#speaking">Speaking</a><a href="#practice">Practice</a>
     </nav>
     <button id="themeBtn" class="icon-btn" aria-label="Toggle theme">☼</button>
   </header>
@@ -28,7 +29,7 @@
         <span class="eyebrow"><i></i> B2 First for Schools · Digital</span>
         <h1>Train smart.<br><span>Walk in ready.</span></h1>
         <p>A fast, practical exam guide: strategies, phrases, timed drills and zero fluff.</p>
-        <div class="hero-actions"><a class="btn primary" href="#practice">Start a quick drill <span>→</span></a><a class="btn ghost" href="#exam">See the exam map</a></div>
+        <div class="hero-actions"><button class="btn primary" id="openExamTop">Enter Exam Mode <span>→</span></button><a class="btn ghost" href="#practice">Quick practice</a></div>
         <div class="mini-stats"><div><b>4</b><small>papers</small></div><div><b>~3h 29m</b><small>total</small></div><div><b>160+</b><small>B2 target score</small></div></div>
       </div>
       <div class="hero-card glass tilt">
@@ -87,22 +88,53 @@
       <div class="fact-check"><span>✓</span><p><b>Format check:</b> Report is not a B2 First for Schools task. It belongs to the standard B2 First exam.</p></div>
     </section>
 
+    <section id="listening" class="section listening-section">
+      <div class="section-title"><span>04 / LISTENING</span><h2>Listen for meaning,<br>not every word</h2><p>Four parts, 30 questions, about 40 minutes. Every recording is played twice.</p></div>
+      <div class="listening-map">
+        <article><em>01</em><div><h3>Short extracts</h3><p>8 questions · A/B/C</p></div><span>attitude · purpose · detail</span></article>
+        <article><em>02</em><div><h3>Sentence completion</h3><p>10 questions · monologue</p></div><span>specific information</span></article>
+        <article><em>03</em><div><h3>Multiple matching</h3><p>5 speakers · 8 options</p></div><span>gist · feeling · purpose</span></article>
+        <article><em>04</em><div><h3>Long interview</h3><p>7 questions · A/B/C</p></div><span>opinion · main idea</span></article>
+      </div>
+      <div class="listening-lab">
+        <div class="audio-console">
+          <div class="wave" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div>
+          <button id="playListening" class="play-btn" aria-label="Play listening extract">▶</button>
+          <div><b>Practice extract</b><small id="playStatus">Press play · you may listen twice</small></div><span id="playCount">0 / 2</span>
+        </div>
+        <div class="listen-question"><span>LISTEN FOR ATTITUDE</span><h3>How does the speaker feel about the school trip?</h3><div class="listen-answers" id="listenAnswers"><button data-answer="wrong">A · disappointed by the destination</button><button data-answer="correct">B · surprised that it was enjoyable</button><button data-answer="wrong">C · worried about the cost</button></div><p id="listenFeedback"></p></div>
+      </div>
+    </section>
+
     <section id="speaking" class="section speaking-section">
-      <div class="section-title"><span>04 / SPEAKING</span><h2>Keep the ball moving</h2><p>Interaction matters. React, invite your partner in and develop every answer.</p></div>
+      <div class="section-title"><span>05 / SPEAKING</span><h2>Keep the ball moving</h2><p>Interaction matters. React, invite your partner in and develop every answer.</p></div>
       <div class="speak-grid">
         <article><span>PART 1 · 2 MIN</span><h3>You & your life</h3><p>Answer + reason + detail</p><blockquote>“I’m really into… because… For example…”</blockquote></article>
         <article><span>PART 2 · 1 MIN</span><h3>Compare photos</h3><p>Both → differences → question</p><blockquote>“While the first photo shows…, the second…”</blockquote></article>
         <article><span>PART 3 · 4 MIN</span><h3>Collaborative task</h3><p>Discuss → react → decide</p><blockquote>“That’s a good point. What do you think about…?”</blockquote></article>
-        <article><span>PART 4 · 5 MIN</span><h3>Deeper discussion</h3><p>Opinion + reason + example</p><blockquote>“It depends on the situation. For instance…”</blockquote></article>
+        <article><span>PART 4 · 4 MIN</span><h3>Deeper discussion</h3><p>Opinion + reason + example</p><blockquote>“It depends on the situation. For instance…”</blockquote></article>
       </div>
       <div class="one-minute"><div><span id="speakTimer">01:00</span><small>PHOTO CHALLENGE</small></div><p>Compare two situations aloud. Don’t describe every detail—compare and answer the question.</p><button id="timerBtn" class="btn primary">Start 60 seconds</button></div>
     </section>
 
     <section id="practice" class="section practice-section">
-      <div class="section-title"><span>05 / QUICK DRILL</span><h2>Three questions.<br>Right now.</h2><p>Choose the best answer. Your score stays on this device.</p></div>
+      <div class="section-title"><span>06 / PRACTICE</span><h2>Train. Review.<br>Improve.</h2><p>Mixed questions with instant explanations. Your results stay on this device.</p><button class="btn ghost stats-open" id="openStats">View my statistics</button></div>
       <div class="quiz" id="quiz"><div class="quiz-top"><span id="qNum">QUESTION 1 / 3</span><span id="scoreLabel">SCORE 0</span></div><div class="quiz-progress"><i id="quizBar"></i></div><h3 id="question"></h3><div id="answers" class="answers"></div><p id="feedback" class="feedback"></p><button id="nextQuestion" class="btn primary hidden">Next question →</button></div>
     </section>
   </main>
+
+  <div class="modal" id="examModal" aria-hidden="true">
+    <div class="modal-shell exam-shell">
+      <div class="modal-top"><div class="brand"><span class="brand-mark">B2</span><span>Exam Mode</span></div><div class="exam-clock" id="examClock">10:00</div><button class="modal-close" id="closeExam">×</button></div>
+      <div id="examIntro" class="exam-intro"><span>FOCUS SESSION</span><h2>10 questions.<br>No hints.</h2><p>A mixed mini-exam covering Use of English, Writing, Listening strategy and Speaking. Feedback appears only after submission.</p><div class="exam-rules"><div><b>10:00</b><small>time limit</small></div><div><b>10</b><small>questions</small></div><div><b>70%</b><small>target</small></div></div><button id="startExam" class="btn primary">Start mini-exam →</button></div>
+      <div id="examRun" class="exam-run hidden"><div class="exam-side"><span>PROGRESS</span><div id="examDots"></div><button id="finishExam" class="btn primary">Submit answers</button></div><div class="exam-body"><span id="examQNum"></span><h3 id="examQuestion"></h3><div id="examAnswers" class="answers"></div><button id="examNext" class="btn ghost">Next →</button></div></div>
+      <div id="examResult" class="exam-result hidden"></div>
+    </div>
+  </div>
+
+  <div class="modal" id="statsModal" aria-hidden="true">
+    <div class="modal-shell stats-shell"><div class="modal-top"><div><span class="eyebrow">YOUR PROGRESS</span><h2>Statistics</h2></div><button class="modal-close" id="closeStats">×</button></div><div id="statsContent"></div></div>
+  </div>
 
   <footer><div class="brand"><span class="brand-mark">B2</span><span>Sprint</span></div><p>Built for focused preparation · Based on official Cambridge exam format</p><a href="#home">Back to top ↑</a></footer>
   <script src="app.js"></script>
