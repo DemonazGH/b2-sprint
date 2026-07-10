@@ -1,0 +1,110 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Interactive B2 First for Schools Digital exam preparation guide">
+  <meta name="theme-color" content="#0b0c10">
+  <title>B2 Sprint — First for Schools</title>
+  <link rel="manifest" href="manifest.webmanifest">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div class="noise"></div>
+  <header class="topbar">
+    <a class="brand" href="#home" aria-label="B2 Sprint home"><span class="brand-mark">B2</span><span>Sprint</span></a>
+    <nav aria-label="Main navigation">
+      <a href="#exam">Exam map</a><a href="#reading">Reading</a><a href="#writing">Writing</a><a href="#speaking">Speaking</a><a href="#practice">Practice</a>
+    </nav>
+    <button id="themeBtn" class="icon-btn" aria-label="Toggle theme">☼</button>
+  </header>
+
+  <main>
+    <section id="home" class="hero">
+      <div class="hero-copy">
+        <span class="eyebrow"><i></i> B2 First for Schools · Digital</span>
+        <h1>Train smart.<br><span>Walk in ready.</span></h1>
+        <p>A fast, practical exam guide: strategies, phrases, timed drills and zero fluff.</p>
+        <div class="hero-actions"><a class="btn primary" href="#practice">Start a quick drill <span>→</span></a><a class="btn ghost" href="#exam">See the exam map</a></div>
+        <div class="mini-stats"><div><b>4</b><small>papers</small></div><div><b>~3h 29m</b><small>total</small></div><div><b>160+</b><small>B2 target score</small></div></div>
+      </div>
+      <div class="hero-card glass tilt">
+        <div class="card-head"><span>Today’s mission</span><span class="live">LIVE</span></div>
+        <div class="mission-ring" style="--progress: 0"><div><strong id="progressNumber">0%</strong><small>complete</small></div></div>
+        <div class="mission-list">
+          <label><input type="checkbox" data-task="read"><span></span><b>Use of English</b><small>10 min</small></label>
+          <label><input type="checkbox" data-task="write"><span></span><b>Essay plan</b><small>8 min</small></label>
+          <label><input type="checkbox" data-task="speak"><span></span><b>Photo comparison</b><small>2 min</small></label>
+        </div>
+        <p class="streak">⚡ Small sessions beat last-minute panic.</p>
+      </div>
+    </section>
+
+    <section id="exam" class="section">
+      <div class="section-title"><span>01 / EXAM MAP</span><h2>Know the game</h2><p>The digital and paper-based exams test the same content and use the same scoring.</p></div>
+      <div class="exam-grid">
+        <article class="exam-card coral"><div class="number">01</div><h3>Reading & Use of English</h3><p>7 parts · 52 questions</p><div class="time">75 <small>min</small></div><span>40% of total</span></article>
+        <article class="exam-card violet"><div class="number">02</div><h3>Writing</h3><p>2 tasks · 140–190 words each</p><div class="time">80 <small>min</small></div><span>20% of total</span></article>
+        <article class="exam-card cyan"><div class="number">03</div><h3>Listening</h3><p>4 parts · 30 questions</p><div class="time">~40 <small>min</small></div><span>20% of total</span></article>
+        <article class="exam-card lime"><div class="number">04</div><h3>Speaking</h3><p>4 parts · face to face</p><div class="time">14 <small>min</small></div><span>20% of total</span></article>
+      </div>
+      <div class="digital-note"><span>⌨</span><div><b>Digital advantage</b><p>Automatic word count, editable answers, highlighting and review tools. Practise typing under time pressure.</p></div></div>
+    </section>
+
+    <section id="reading" class="section two-col">
+      <div class="section-title sticky"><span>02 / READING + UOE</span><h2>Seven parts.<br>One system.</h2><p>Tap a part for the exact strategy.</p><div class="time-split"><b>35 min</b> UoE <i></i><b>40 min</b> Reading</div></div>
+      <div class="accordion" id="readingAccordion">
+        <details open><summary><em>1</em><div><b>Multiple-choice cloze</b><small>8 questions · vocabulary</small></div><span>＋</span></summary><div class="detail"><p>Read the whole sentence first. Predict the missing word, then compare the options. Look for collocations and phrasal verbs—not just meaning.</p><div class="chips"><i>make progress</i><i>take a risk</i><i>depend on</i></div></div></details>
+        <details><summary><em>2</em><div><b>Open cloze</b><small>8 questions · grammar</small></div><span>＋</span></summary><div class="detail"><p>One gap, one word. Decide what kind of word is missing: article, preposition, auxiliary, pronoun or linker. Read both sides of the gap.</p></div></details>
+        <details><summary><em>3</em><div><b>Word formation</b><small>8 questions · word families</small></div><span>＋</span></summary><div class="detail"><p>First identify the part of speech. Then check whether the meaning is negative, singular/plural and whether spelling changes.</p><div class="formula">DECIDE → decision · RESPONSIBLE → irresponsible</div></div></details>
+        <details><summary><em>4</em><div><b>Key word transformation</b><small>6 questions · 2–5 words</small></div><span>＋</span></summary><div class="detail"><p>Never change the key word. Keep the meaning identical and count contractions as two words. Partial answers can still earn one mark.</p></div></details>
+        <details><summary><em>5</em><div><b>Multiple choice</b><small>6 questions · detailed reading</small></div><span>＋</span></summary><div class="detail"><p>Read the questions first. Underline the key idea, find the matching paragraph and eliminate options contradicted by the text.</p></div></details>
+        <details><summary><em>6</em><div><b>Gapped text</b><small>6 questions · cohesion</small></div><span>＋</span></summary><div class="detail"><p>Track pronouns, repeated ideas, time order and contrast words. The sentence must connect logically to both the text before and after the gap.</p></div></details>
+        <details><summary><em>7</em><div><b>Multiple matching</b><small>10 questions · scanning</small></div><span>＋</span></summary><div class="detail"><p>Start with the questions, then scan for paraphrases—not identical words. One paragraph may answer several questions.</p></div></details>
+      </div>
+    </section>
+
+    <section id="writing" class="section">
+      <div class="section-title"><span>03 / WRITING</span><h2>Structure beats inspiration</h2><p>Two tasks, equal marks, about 40 minutes each.</p></div>
+      <div class="writing-layout">
+        <article class="essay-board">
+          <div class="board-label">PART 1 · COMPULSORY</div><h3>Opinion essay</h3><p class="lead">Use <strong>both given ideas</strong>, add <strong>one idea of your own</strong>, and support your opinion with reasons.</p>
+          <div class="essay-flow"><div><span>01</span><b>Introduction</b><small>Paraphrase + position</small></div><i></i><div><span>02</span><b>Given idea 1</b><small>Reason + example</small></div><i></i><div><span>03</span><b>Given idea 2</b><small>Reason + example</small></div><i></i><div><span>04</span><b>Your idea</b><small>Reason + example</small></div><i></i><div><span>05</span><b>Conclusion</b><small>Answer the question</small></div></div>
+          <div class="warning"><b>Don’t memorise a whole essay.</b> Memorise flexible linking phrases and practise adapting them to the task.</div>
+        </article>
+        <aside class="phrase-deck">
+          <div class="deck-head"><span>Phrase deck</span><small id="phraseCount">1 / 8</small></div>
+          <button class="flashcard" id="flashcard"><span id="phraseType">GIVE A REASON</span><strong id="phraseText">This is mainly because…</strong><small>tap for next</small></button>
+          <div class="deck-controls"><button id="prevPhrase">←</button><button id="nextPhrase">→</button></div>
+        </aside>
+      </div>
+      <div class="part2-title"><div><b>Part 2</b><span>Choose one task</span></div><p>For Schools: these four text types may appear.</p></div>
+      <div class="type-tabs" role="tablist"><button class="active" data-type="review">Review</button><button data-type="article">Article</button><button data-type="email">Email / Letter</button><button data-type="story">Story</button></div>
+      <div class="type-panel" id="typePanel"></div>
+      <div class="fact-check"><span>✓</span><p><b>Format check:</b> Report is not a B2 First for Schools task. It belongs to the standard B2 First exam.</p></div>
+    </section>
+
+    <section id="speaking" class="section speaking-section">
+      <div class="section-title"><span>04 / SPEAKING</span><h2>Keep the ball moving</h2><p>Interaction matters. React, invite your partner in and develop every answer.</p></div>
+      <div class="speak-grid">
+        <article><span>PART 1 · 2 MIN</span><h3>You & your life</h3><p>Answer + reason + detail</p><blockquote>“I’m really into… because… For example…”</blockquote></article>
+        <article><span>PART 2 · 1 MIN</span><h3>Compare photos</h3><p>Both → differences → question</p><blockquote>“While the first photo shows…, the second…”</blockquote></article>
+        <article><span>PART 3 · 4 MIN</span><h3>Collaborative task</h3><p>Discuss → react → decide</p><blockquote>“That’s a good point. What do you think about…?”</blockquote></article>
+        <article><span>PART 4 · 5 MIN</span><h3>Deeper discussion</h3><p>Opinion + reason + example</p><blockquote>“It depends on the situation. For instance…”</blockquote></article>
+      </div>
+      <div class="one-minute"><div><span id="speakTimer">01:00</span><small>PHOTO CHALLENGE</small></div><p>Compare two situations aloud. Don’t describe every detail—compare and answer the question.</p><button id="timerBtn" class="btn primary">Start 60 seconds</button></div>
+    </section>
+
+    <section id="practice" class="section practice-section">
+      <div class="section-title"><span>05 / QUICK DRILL</span><h2>Three questions.<br>Right now.</h2><p>Choose the best answer. Your score stays on this device.</p></div>
+      <div class="quiz" id="quiz"><div class="quiz-top"><span id="qNum">QUESTION 1 / 3</span><span id="scoreLabel">SCORE 0</span></div><div class="quiz-progress"><i id="quizBar"></i></div><h3 id="question"></h3><div id="answers" class="answers"></div><p id="feedback" class="feedback"></p><button id="nextQuestion" class="btn primary hidden">Next question →</button></div>
+    </section>
+  </main>
+
+  <footer><div class="brand"><span class="brand-mark">B2</span><span>Sprint</span></div><p>Built for focused preparation · Based on official Cambridge exam format</p><a href="#home">Back to top ↑</a></footer>
+  <script src="app.js"></script>
+</body>
+</html>
