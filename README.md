@@ -2,6 +2,8 @@
 
 Interactive, mobile-friendly revision site for Cambridge B2 First for Schools Digital.
 
+Version 2 adds a browser-based Listening lab, expanded practice bank, timed Exam Mode and local progress statistics.
+
 ## Run locally
 
 Open `index.html` in a browser. No build step or server is required.
