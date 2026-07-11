@@ -1,5 +1,5 @@
-const CACHE='b2-sprint-v2';
-const CORE=['./','./index.html','./styles.css','./features.css','./app.js','./manifest.webmanifest'];
+const CACHE='b2-sprint-v3';
+const CORE=['./','./index.html','./styles.css','./features.css','./speaking.css','./app.js','./manifest.webmanifest'];
 self.addEventListener('install',event=>event.waitUntil(caches.open(CACHE).then(cache=>cache.addAll(CORE))));
 self.addEventListener('activate',event=>event.waitUntil(caches.keys().then(keys=>Promise.all(keys.filter(key=>key!==CACHE).map(key=>caches.delete(key))))));
 self.addEventListener('fetch',event=>{if(event.request.method==='GET')event.respondWith(caches.match(event.request).then(cached=>cached||fetch(event.request)))})
