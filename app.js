@@ -22,6 +22,61 @@ $$('.type-tabs button').forEach(b=>b.onclick=()=>showType(b.dataset.type));showT
 let seconds=60,tick=null;function renderTime(){const s=String(seconds).padStart(2,'0');$('#speakTimer').textContent=`00:${s}`}
 $('#timerBtn').onclick=()=>{if(tick){clearInterval(tick);tick=null;seconds=60;renderTime();$('#timerBtn').textContent='Start 60 seconds';return}seconds=60;renderTime();$('#timerBtn').textContent='Reset';tick=setInterval(()=>{seconds--;renderTime();if(seconds<=0){clearInterval(tick);tick=null;$('#timerBtn').textContent='Try again'}},1000)};
 
+// Guided Speaking Lab: Parts 1 and 2.
+const lifeQuestions=[
+ 'What do you enjoy doing in your free time?',
+ 'Tell me about a subject you enjoy at school.',
+ 'What would you like to do after finishing school?',
+ 'Do you prefer spending your weekend indoors or outdoors?',
+ 'How important is English in your life?',
+ 'Tell me about a place you enjoy visiting.',
+ 'What kind of music do you enjoy and why?',
+ 'How do you usually use technology for studying?'
+];
+const lifeSamples={
+ 'What do you enjoy doing in your free time?':['I’m really into playing strategy games.','The main reason is that they make me think and solve problems.','For example, I often play online with my friends at the weekend.'],
+ 'Tell me about a subject you enjoy at school.':['One of my favourite subjects is computer science.','I enjoy it because I like understanding how technology works.','For instance, we recently created a simple game in class.'],
+ 'What would you like to do after finishing school?':['I’d like to study something connected with technology.','This is mainly because I enjoy solving practical problems.','For example, I’m interested in learning how apps and websites are built.'],
+ 'Do you prefer spending your weekend indoors or outdoors?':['I generally prefer spending it outdoors.','The main reason is that I need a break after sitting in class all week.','For example, I often go cycling or meet my friends in town.'],
+ 'How important is English in your life?':['English is very important to me.','It gives me access to more information and lets me communicate with people abroad.','For instance, I watch tutorials and films in English.'],
+ 'Tell me about a place you enjoy visiting.':['I really enjoy visiting the park near my home.','I like it because it is quiet and helps me relax.','For example, I sometimes go there to walk and listen to music.'],
+ 'What kind of music do you enjoy and why?':['I mostly listen to rock and electronic music.','I enjoy it because it gives me energy and helps me focus.','For example, I often listen to it while travelling to school.'],
+ 'How do you usually use technology for studying?':['I mainly use my laptop to research topics and organise my notes.','It is useful because I can find explanations quickly.','For example, I often watch short video lessons before a test.']
+};
+let lifeIndex=0,lifeTimer=null,photoTimer=null,currentRecognition=null,coachStep=0;const compareNotes=['','','','',''];
+const coachSteps=[
+ {short:'Open',label:'STEP 1 · OPEN',task:'Start with what both photos have in common.',phrases:['Both photos show…','In both pictures, we can see…','The two photos depict…']},
+ {short:'A',label:'STEP 2 · PHOTO A',task:'Describe the first situation briefly. Focus on the person, place and atmosphere.',phrases:['In the first photo,…','The student seems to be…','The atmosphere looks…']},
+ {short:'B',label:'STEP 3 · PHOTO B',task:'Move to the second situation and connect it to the first.',phrases:['Whereas in the second photo,…','The other picture shows…','By contrast,…']},
+ {short:'Compare',label:'STEP 4 · COMPARE',task:'Make one clear comparison. Avoid two separate lists.',phrases:['While the first student…, the group…','Unlike the person in Photo A,…','The main difference is that…']},
+ {short:'Why?',label:'STEP 5 · ANSWER',task:'Answer why they chose these ways of studying. Speculate—certainty is not required.',phrases:['They might have chosen… because…','Perhaps the student prefers…','I imagine the group wanted…']}
+];
+function openSpeaking(mode){showSpeakingMode(mode);modal('#speakingModal',true)}
+$$('[data-speaking-mode]').forEach(b=>b.onclick=()=>openSpeaking(b.dataset.speakingMode));
+$$('[data-speak-tab]').forEach(b=>b.onclick=()=>showSpeakingMode(b.dataset.speakTab));
+function showSpeakingMode(mode){$('#lifeTrainer').classList.toggle('hidden',mode!=='life');$('#photosTrainer').classList.toggle('hidden',mode!=='photos');$$('[data-speak-tab]').forEach(b=>b.classList.toggle('active',b.dataset.speakTab===mode));if(mode==='photos')renderCoach()}
+$('#closeSpeaking').onclick=()=>{stopSpeakingTools();modal('#speakingModal',false)};
+function stopSpeakingTools(){clearInterval(lifeTimer);clearInterval(photoTimer);lifeTimer=photoTimer=null;if(currentRecognition){try{currentRecognition.stop()}catch{}currentRecognition=null}}
+
+function showLifeQuestion(){const q=lifeQuestions[lifeIndex];$('#lifeQuestion').textContent=q;['#lifeAnswer','#lifeReason','#lifeDetail'].forEach(s=>$(s).value='');updateLifePreview();$('#lifeSpeechStage').classList.add('hidden')}
+$('#newLifeQuestion').onclick=()=>{lifeIndex=(lifeIndex+1)%lifeQuestions.length;showLifeQuestion()};
+['#lifeAnswer','#lifeReason','#lifeDetail'].forEach(s=>$(s).addEventListener('input',updateLifePreview));
+function updateLifePreview(){const parts=[$('#lifeAnswer').value,$('#lifeReason').value,$('#lifeDetail').value].filter(Boolean);$('#lifePreview').textContent=parts.length?parts.join(' '):'Complete the three boxes. Your answer plan will appear here.'}
+$('#lifeSample').onclick=()=>{const s=lifeSamples[lifeQuestions[lifeIndex]];$('#lifeAnswer').value=s[0];$('#lifeReason').value=s[1];$('#lifeDetail').value=s[2];updateLifePreview()};
+$('#startLifeSpeaking').onclick=()=>{$('#lifeSpeechStage').classList.remove('hidden');$('#lifeTranscript').focus();$('#lifeSpeechStage').scrollIntoView({behavior:'smooth',block:'nearest'})};
+
+function startCountdown(display,seconds,onDone){let left=seconds;display.textContent=`00:${String(left).padStart(2,'0')}`;const t=setInterval(()=>{left--;display.textContent=`00:${String(Math.max(0,left)).padStart(2,'0')}`;if(left<=0){clearInterval(t);onDone?.()}},1000);return t}
+function startRecognition(button,textarea,duration,kind){stopRecognitionOnly();const Recognition=window.SpeechRecognition||window.webkitSpeechRecognition;button.classList.add('recording');button.textContent='■ Stop';let finalText=textarea.value?textarea.value+' ':'';if(kind==='life'){clearInterval(lifeTimer);lifeTimer=startCountdown($('#lifeClock'),duration,()=>stopRecognitionOnly())}else{clearInterval(photoTimer);photoTimer=startCountdown($('#photoClock'),duration,()=>stopRecognitionOnly())}if(!Recognition){textarea.placeholder='Speech recognition is unavailable in this browser. Speak with the timer, then type a short self-review.';setTimeout(()=>stopRecognitionOnly(),duration*1000);return}const rec=new Recognition();currentRecognition=rec;rec.lang='en-GB';rec.continuous=true;rec.interimResults=true;rec.onresult=e=>{let interim='';for(let i=e.resultIndex;i<e.results.length;i++){const text=e.results[i][0].transcript;if(e.results[i].isFinal)finalText+=text+' ';else interim+=text}textarea.value=finalText+interim};rec.onerror=()=>{textarea.placeholder='Speech recognition stopped. You can type a self-review here.';stopRecognitionOnly()};rec.onend=()=>{if(currentRecognition===rec)stopRecognitionOnly()};try{rec.start()}catch{stopRecognitionOnly()}}
+function stopRecognitionOnly(){if(currentRecognition){const r=currentRecognition;currentRecognition=null;try{r.stop()}catch{}}$$('.record-btn.recording').forEach(b=>{b.classList.remove('recording');b.textContent='● Start speaking'})}
+$('#lifeRecord').onclick=()=>$('#lifeRecord').classList.contains('recording')?stopRecognitionOnly():startRecognition($('#lifeRecord'),$('#lifeTranscript'),30,'life');
+
+function renderCoach(){const s=coachSteps[coachStep];$('#coachTrack').innerHTML=coachSteps.map((x,i)=>`<button data-coach="${i}" data-short="${x.short}" class="${i===coachStep?'active':''} ${compareNotes[i]?'done':''}">${i+1}. ${x.short}</button>`).join('');$$('[data-coach]').forEach(b=>b.onclick=()=>{saveCoachNote();coachStep=+b.dataset.coach;renderCoach()});$('#coachLabel').textContent=s.label;$('#coachTask').textContent=s.task;$('#coachPhrases').innerHTML=s.phrases.map(p=>`<button>${p}</button>`).join('');$$('#coachPhrases button').forEach(b=>b.onclick=()=>{$('#coachNote').value=($('#coachNote').value+' '+b.textContent).trim();$('#coachNote').focus()});$('#coachNote').value=compareNotes[coachStep];$('#nextCoachStep').textContent=coachStep===4?'Start the 60-second task →':'Next step →'}
+function saveCoachNote(){compareNotes[coachStep]=$('#coachNote').value.trim()}
+$('#nextCoachStep').onclick=()=>{saveCoachNote();if(coachStep<4){coachStep++;renderCoach()}else{$('#photoRun').classList.remove('hidden');$('#photoRun').scrollIntoView({behavior:'smooth',block:'nearest'})}};
+$('#photoRecord').onclick=()=>$('#photoRecord').classList.contains('recording')?stopRecognitionOnly():startRecognition($('#photoRecord'),$('#photoTranscript'),60,'photo');
+function saveSpeakingAttempt(kind){stopSpeakingTools();const root=kind==='life'?$('#lifeSpeechStage'):$('#photoRun'),checks=$$('input[type="checkbox"]',root),done=checks.filter(x=>x.checked).length;saved.speakingAttempts=(saved.speakingAttempts||0)+1;saved.speakingChecks=(saved.speakingChecks||0)+done;logActivity('speaking',done);persist();const toast=document.createElement('div');toast.className='save-toast';toast.textContent=`Attempt saved · ${done}/${checks.length} structure points`;document.body.appendChild(toast);setTimeout(()=>toast.remove(),2600)}
+$('#finishLife').onclick=()=>saveSpeakingAttempt('life');$('#finishPhotos').onclick=()=>saveSpeakingAttempt('photos');showLifeQuestion();renderCoach();
+
 const questions=[
  {q:'In Writing Part 1, what must you discuss?',a:['Any two ideas you prefer','Both given ideas and one idea of your own','Only your own idea'],c:1,x:'Both notes are compulsory, plus one idea of your own.'},
  {q:'Which task is NOT part of B2 First for Schools Writing?',a:['Review','Story','Report'],c:2,x:'Report belongs to standard B2 First, not B2 First for Schools.'},
@@ -69,4 +124,4 @@ function finishExam(){clearInterval(exTick);exTick=null;const correct=examQuesti
 
 // Statistics dashboard.
 $('#openStats').onclick=()=>{renderStats();modal('#statsModal',true)};$('#closeStats').onclick=()=>modal('#statsModal',false);
-function renderStats(){const answered=(saved.practiceAnswered||0)+(saved.examAnswered||0)+(saved.listeningAttempts||0),correct=(saved.practiceCorrect||0)+(saved.examCorrect||0)+(saved.listeningCorrect||0),accuracy=answered?Math.round(correct/answered*100):0,days=[];for(let i=6;i>=0;i--){const d=new Date();d.setDate(d.getDate()-i);const k=dayKey(d),v=(saved.activity||{})[k];days.push({label:d.toLocaleDateString('en',{weekday:'short'}),count:v?.count||0})}const max=Math.max(1,...days.map(x=>x.count));$('#statsContent').innerHTML=`<div class="stat-cards"><div class="stat-card"><b>${saved.exams||0}</b><small>mini-exams</small></div><div class="stat-card"><b>${accuracy}%</b><small>overall accuracy</small></div><div class="stat-card"><b>${saved.bestExam||0}%</b><small>best exam</small></div><div class="stat-card"><b>${streak()}</b><small>day streak</small></div></div>${answered?`<div class="activity-chart"><h3>Last 7 days</h3><div class="bars">${days.map(x=>`<div><i style="height:${Math.max(4,x.count/max*100)}%"></i><small>${x.label}</small></div>`).join('')}</div></div>`:'<div class="no-activity">Complete a practice question or mini-exam to start your chart.</div>'}`}
+function renderStats(){const answered=(saved.practiceAnswered||0)+(saved.examAnswered||0)+(saved.listeningAttempts||0),correct=(saved.practiceCorrect||0)+(saved.examCorrect||0)+(saved.listeningCorrect||0),accuracy=answered?Math.round(correct/answered*100):0,days=[];for(let i=6;i>=0;i--){const d=new Date();d.setDate(d.getDate()-i);const k=dayKey(d),v=(saved.activity||{})[k];days.push({label:d.toLocaleDateString('en',{weekday:'short'}),count:v?.count||0})}const max=Math.max(1,...days.map(x=>x.count));$('#statsContent').innerHTML=`<div class="stat-cards"><div class="stat-card"><b>${saved.exams||0}</b><small>mini-exams</small></div><div class="stat-card"><b>${saved.speakingAttempts||0}</b><small>speaking attempts</small></div><div class="stat-card"><b>${accuracy}%</b><small>objective accuracy</small></div><div class="stat-card"><b>${saved.bestExam||0}%</b><small>best exam</small></div><div class="stat-card"><b>${streak()}</b><small>day streak</small></div></div>${answered||saved.speakingAttempts?`<div class="activity-chart"><h3>Last 7 days</h3><div class="bars">${days.map(x=>`<div><i style="height:${Math.max(4,x.count/max*100)}%"></i><small>${x.label}</small></div>`).join('')}</div></div>`:'<div class="no-activity">Complete a practice question, speaking task or mini-exam to start your chart.</div>'}`}
