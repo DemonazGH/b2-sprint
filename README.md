@@ -4,6 +4,8 @@ Interactive, mobile-friendly revision site for Cambridge B2 First for Schools Di
 
 Version 2 adds a browser-based Listening lab, expanded practice bank, timed Exam Mode and local progress statistics.
 
+Version 3 adds guided Speaking Part 1 and Part 2 trainers with answer planning, timed delivery, optional browser speech recognition and self-assessment.
+
 ## Run locally
 
 Open `index.html` in a browser. No build step or server is required.
