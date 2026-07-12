@@ -13,6 +13,7 @@
   <link rel="stylesheet" href="styles.css">
   <link rel="stylesheet" href="features.css">
   <link rel="stylesheet" href="speaking.css">
+  <link rel="stylesheet" href="architect.css">
 </head>
 <body>
   <div class="noise"></div>
@@ -83,9 +84,15 @@
           <div class="deck-controls"><button id="prevPhrase">←</button><button id="nextPhrase">→</button></div>
         </aside>
       </div>
-      <div class="part2-title"><div><b>Part 2</b><span>Choose one task</span></div><p>For Schools: these four text types may appear.</p></div>
-      <div class="type-tabs" role="tablist"><button class="active" data-type="review">Review</button><button data-type="article">Article</button><button data-type="email">Email / Letter</button><button data-type="story">Story</button></div>
-      <div class="type-panel" id="typePanel"></div>
+      <div class="part2-title"><div><b>The Architect</b><span>Every task, X-rayed</span></div><p>Pick a task. See its skeleton, read a model answer, then rebuild the structure from memory.</p></div>
+      <div class="arch-wrap">
+        <div class="arch-top">
+          <div class="type-tabs" id="archTabs" role="tablist"></div>
+          <div class="arch-views" id="archViews"><button data-view="blueprint" class="active">Blueprint</button><button data-view="model">Model answer</button><button data-view="game">Rebuild it</button></div>
+        </div>
+        <div class="arch-task" id="archTask"></div>
+        <div class="arch-panel" id="archPanel"></div>
+      </div>
       <div class="fact-check"><span>✓</span><p><b>Format check:</b> Report is not a B2 First for Schools task. It belongs to the standard B2 First exam.</p></div>
     </section>
 
@@ -115,6 +122,7 @@
         <article><span>PART 3 · 4 MIN</span><h3>Collaborative task</h3><p>Discuss → react → decide</p><blockquote>“That’s a good point. What do you think about…?”</blockquote></article>
         <article><span>PART 4 · 4 MIN</span><h3>Deeper discussion</h3><p>Opinion + reason + example</p><blockquote>“It depends on the situation. For instance…”</blockquote></article>
       </div>
+      <div class="loop-widget"><div class="loop-head"><span>PARTS 3 &amp; 4 · THE INTERACTION LOOP</span><p>A discussion is a circle, not a speech. Tap each move to see the phrases that power it.</p></div><div class="loop-track" id="loopTrack"></div><div class="loop-card" id="loopCard"></div><p class="loop-note"><b>Final minute of Part 3:</b> “So, shall we go for…?” — reaching a decision together is part of the task.</p></div>
       <div class="one-minute"><div><span id="speakTimer">01:00</span><small>PHOTO CHALLENGE</small></div><p>Compare two situations aloud. Don’t describe every detail—compare and answer the question.</p><button id="timerBtn" class="btn primary">Start 60 seconds</button></div>
     </section>
 
@@ -131,10 +139,10 @@
       <section id="lifeTrainer" class="speaking-trainer">
         <div class="trainer-intro"><span>PART 1 · INTERVIEW</span><h2>Build a natural answer</h2><p>Do not stop after “yes” or “no”. Give a direct answer, explain why and add one real detail.</p></div>
         <div class="question-machine"><div><span>YOUR QUESTION</span><h3 id="lifeQuestion">What do you enjoy doing in your free time?</h3></div><button id="newLifeQuestion">New question ↻</button></div>
-        <div class="answer-builder">
-          <label><span><i>1</i><b>Answer</b><small>Say what you think</small></span><input id="lifeAnswer" placeholder="I’m really into…"></label>
-          <label><span><i>2</i><b>Reason</b><small>Explain why</small></span><input id="lifeReason" placeholder="The main reason is that…"></label>
-          <label><span><i>3</i><b>Detail</b><small>Add an example</small></span><input id="lifeDetail" placeholder="For example,…"></label>
+        <div class="answer-builder" id="lifeBuilder">
+          <div class="build-step"><div class="step-head"><i>1</i><div><b>Answer</b><small>Say what you think</small></div></div><div class="step-chips"><button>I’m really into…</button><button>To be honest, I’d say…</button><button>What I enjoy most is…</button></div><input id="lifeAnswer" placeholder="I’m really into…"></div>
+          <div class="build-step"><div class="step-head"><i>2</i><div><b>Reason</b><small>Explain why</small></div></div><div class="step-chips"><button>The main reason is that…</button><button>…mainly because…</button><button>It helps me…</button></div><input id="lifeReason" placeholder="The main reason is that…"></div>
+          <div class="build-step"><div class="step-head"><i>3</i><div><b>Example</b><small>Add a real detail</small></div></div><div class="step-chips"><button>For example,…</button><button>For instance, last weekend…</button><button>In fact,…</button></div><input id="lifeDetail" placeholder="For example,…"></div>
         </div>
         <div class="built-answer"><span>YOUR ANSWER PLAN</span><p id="lifePreview">Complete the three boxes. Your answer plan will appear here.</p></div>
         <div class="trainer-actions"><button class="btn ghost" id="lifeSample">Show a sample</button><button class="btn primary" id="startLifeSpeaking">Speak for 30 seconds →</button></div>
@@ -148,6 +156,7 @@
           <figure><img src="https://images.unsplash.com/photo-1759984782211-3a02ca78e6ac?auto=format&fit=crop&w=1000&q=82" alt="Student studying alone at a desk with a laptop and notebook"><figcaption>PHOTO A · studying alone</figcaption></figure>
           <figure><img src="https://images.unsplash.com/photo-1709802247879-3d4241a05dc4?auto=format&fit=crop&w=1000&q=82" alt="Group of young people reading and studying together"><figcaption>PHOTO B · studying together</figcaption></figure>
         </div>
+        <div class="route-map"><span>YOUR 60-SECOND ROUTE</span><div class="route-bar" id="routeBar"></div></div>
         <div class="compare-coach"><div class="coach-track" id="coachTrack"></div><div class="coach-card"><span id="coachLabel">STEP 1 · OPEN</span><h3 id="coachTask">Start with what both photos have in common.</h3><div class="coach-phrases" id="coachPhrases"></div><textarea id="coachNote" placeholder="Write 3–6 key words only — not a full sentence."></textarea><button class="btn primary" id="nextCoachStep">Next step →</button></div></div>
         <div class="photo-run hidden" id="photoRun"><div class="speech-clock" id="photoClock">01:00</div><div><b>Your one-minute long turn</b><p>Both photos → key contrast → speculation → answer the question.</p></div><button class="record-btn" id="photoRecord">● Start recording</button><textarea id="photoTranscript" placeholder="Your recognised speech or self-review will appear here."></textarea><div class="self-check"><label><input type="checkbox"> Both photos</label><label><input type="checkbox"> Comparison</label><label><input type="checkbox"> Speculation</label><label><input type="checkbox"> Question answered</label></div><button class="btn primary" id="finishPhotos">Save attempt</button></div>
         <p class="photo-credit">Photos: Julio Lopez and Sarang Bhojwani · Unsplash</p>
